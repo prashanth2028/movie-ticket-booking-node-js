@@ -1,5 +1,6 @@
 import Ticket from '../models/ticketModel.js';
 import Movie from '../models/movieModel.js';
+import {successResponse , errorResponse} from '../config/response.js';
 
 export const bookTicket = async (req, res) => {
   const { movieId,user, seats,showtimes } = req.body;
@@ -7,7 +8,7 @@ export const bookTicket = async (req, res) => {
     console.log(req.body)
     const movie = await Movie.findById(movieId);
    
-    if (!movie) return res.status(404).json({ msg: 'Movie not found' });
+    if (!movie) return errorResponse(res, 404, "Movie not found");
 
     const totalPrice = movie.price * seats;
 
@@ -21,11 +22,10 @@ export const bookTicket = async (req, res) => {
 
     console.log("tickets:",ticket);
     
-
-   return res.json({ msg: 'Ticket booked successfully', ticket });
+    return successResponse(res, 201, "Ticket booked successfully", ticket);
   } catch (err) {
     console.error(err);
-    return res.status(500).json({ msg: 'Server error' });
+    return errorResponse(res, 500, "Server error", { error: err.message });
   }
 };
 
@@ -35,6 +35,6 @@ export const getUserTickets = async (req, res) => {
     res.json(tickets);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: 'Server error' });
+    return errorResponse(res, 500, "Server error", { error: err.message });
   }
 };

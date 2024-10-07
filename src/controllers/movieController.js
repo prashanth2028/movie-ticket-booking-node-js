@@ -1,4 +1,5 @@
 import Movie from '../models/movieModel.js';
+import {successResponse , errorResponse} from '../config/response.js';
 
 // Admin creates a new movie
 export const createMovie = async (req, res) => {
@@ -12,9 +13,9 @@ export const createMovie = async (req, res) => {
       showtimes,
     });
     await movie.save();
-    res.json({ msg: 'Movie created successfully', movie });
+    return successResponse(res, 201, "Movie created successfully", movie);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    return errorResponse(res, 500, "Server error", { error: err.message });
   }
 };
 
@@ -32,9 +33,9 @@ export const updateMovie = async (req, res) => {
     movie.showtimes = showtimes || movie.showtimes;
 
     await movie.save();
-    res.json({ msg: 'Movie updated successfully', movie });
+    return successResponse(res, 200, "Movie updated successfully", movie);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    return errorResponse(res, 500, "Server error", { error: err.message });
   }
 };
 
@@ -44,9 +45,9 @@ export const deleteMovie = async (req, res) => {
     const movie = await Movie.findByIdAndDelete(req.params.movieId);
     if (!movie) return res.status(404).json({ msg: 'Movie not found' });
 
-    res.json({ msg: 'Movie deleted successfully' });
+    return successResponse(res, 200, "Movie deleted successfully", movie);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    return errorResponse(res, 500, "Server error", { error: err.message });
   }
 };
 
@@ -56,6 +57,6 @@ export const getMovies = async (req, res) => {
     const movies = await Movie.find();
     res.json(movies);
   } catch (err) {
-    res.status(500).json({ msg: 'Server error' });
+    return errorResponse(res, 500, "Server error", { error: err.message });
   }
 };
