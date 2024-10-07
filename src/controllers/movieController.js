@@ -23,7 +23,7 @@ export const createMovie = async (req, res) => {
 export const updateMovie = async (req, res) => {
   const { title, description, duration, price, showtimes } = req.body;
   try {
-    const movie = await Movie.findById(req.params.movieId);
+    const movie = await Movie.findById(req.params.id);
     if (!movie) return res.status(404).json({ msg: 'Movie not found' });
 
     movie.title = title || movie.title;
@@ -42,7 +42,7 @@ export const updateMovie = async (req, res) => {
 // Admin deletes a movie
 export const deleteMovie = async (req, res) => {
   try {
-    const movie = await Movie.findByIdAndDelete(req.params.movieId);
+    const movie = await Movie.findByIdAndDelete(req.params.id);
     if (!movie) return res.status(404).json({ msg: 'Movie not found' });
 
     return successResponse(res, 200, "Movie deleted successfully", movie);
