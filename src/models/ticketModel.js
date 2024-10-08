@@ -7,7 +7,7 @@ const TicketSchema = new mongoose.Schema({
   showtime: { type: Date, required: true },
   totalPrice: { type: Number, required: true },
   bookingDate: { type: Date, default: Date.now },
-  paymentStatus: [{type: String}]
+  paymentStatus: {type: String}
 });
 
 const Ticket = mongoose.model('Ticket', TicketSchema);

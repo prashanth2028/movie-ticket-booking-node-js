@@ -9,7 +9,6 @@ const ticketValidation = Joi.object({
     showtimes:Joi.date().required(),
     user:Joi.objectId().required(),
     seats:Joi.number().integer().min(1).required(),
-    totalPrice:Joi.number().integer().required(),
 });
 
 

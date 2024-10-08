@@ -6,7 +6,7 @@ import User from '../models/userModel.js';
 import stripe from '../utils/stripe.js';
 
 export const bookTicket = async (req, res) => {
-  const { movieId,user, seats,showtimes, paymentMethodId} = req.body;
+  const { movieId,user, seats,showtimes} = req.body;
   try {
     console.log(req.body)
     const movie = await Movie.findById(movieId);
